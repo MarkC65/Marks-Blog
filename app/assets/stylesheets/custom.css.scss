@@ -1,0 +1,116 @@
+@import 'bootstrap/dist/css/bootstrap';
+
+.navbar {
+  background-color: black !important;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.jumbotron {
+  background-image: url(https://images.unsplash.com/photo-1455849318743-b2233052fcff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 425px;
+}
+
+.btn-primary {
+  background-color: limegreen;
+}
+
+#logo {
+  float: left;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: capitalize;
+  letter-spacing: normal;
+  font-weight: normal;
+}
+
+#home-container {
+  margin-top: 30px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+  background-color: rgba(211, 211, 211, .3);
+}
+
+#new-container {
+  background-color: rgba(255, 255, 230, 1)
+}
+
+#alert-container {
+  padding-bottom: 0px;
+  background-color: rgba(255, 64, 0, 1);
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+.special-card {
+  /* create a custom class so you 
+     do not run into specificity issues 
+     against bootstraps styles
+     which tends to work better than using !important 
+     (future you will thank you later)*/
+  
+    opacity: .85;
+  }
+
+#form-label {
+  font-size: 22px;
+}
+
+.alert-text {
+  font-size: 2rem;
+}
+
+.flickr_pagination {
+  text-align: center;
+  padding: 0.3em;
+  cursor: default; }
+.flickr_pagination a, .flickr_pagination span, .flickr_pagination em {
+  padding: 0.2em 0.5em; }
+.flickr_pagination .disabled {
+  color: #aaaaaa; }
+.flickr_pagination .current {
+  font-style: normal;
+  font-weight: bold;
+  color: #ff0084; }
+.flickr_pagination a {
+  border: 1px solid #dddddd;
+  color: #0063dc;
+  text-decoration: none; }
+  .flickr_pagination a:hover, .flickr_pagination a:focus {
+    border-color: #7ffc74;
+    background: #6fc45c;
+    color: white; }
+.flickr_pagination .page_info {
+  color: #aaaaaa;
+  padding-top: 0.8em;
+  padding-bottom: 1em; }
+.flickr_pagination .previous_page, .flickr_pagination .next_page {
+  border-width: 2px; }
+.flickr_pagination .previous_page {
+  margin-right: 1em; }
+.flickr_pagination .next_page {
+  margin-left: 1em; }
+
+.form-check-label {
+  font-size: 14px;
+}
+
+.lozenge {
+  background-color: #ccffe6;
+  letter-spacing: -1px;
+  font-weight: bold;
+}
