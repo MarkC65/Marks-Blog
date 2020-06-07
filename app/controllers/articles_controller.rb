@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
+  before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   def show
-    @article = Article.find(params[:id])
   end
   
   def index
@@ -24,11 +24,9 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
   end
 
   def update
-    @article = Article.find(params[:id])
     if @article.update(params_require)
       flash[:top] = "Article updated successfully."
       redirect_to article_path(@article)
@@ -38,12 +36,17 @@ class ArticlesController < ApplicationController
   end
   
   def destroy
-    @article = Article.find(params[:id])
     @article.destroy
     redirect_to articles_path
   end
 
   private
+
+  def set_article
+    @article = Article.find(params[:id])
+    # @article_comment_ct = @article.article_comments.count
+    # @article_comments = @article.article_comments.order(updated_at: :DESC).paginate(page: params[:page], per_page: 5)
+  end
 
   def params_require
     params.require(:article).permit(:title, :description)
