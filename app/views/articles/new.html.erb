@@ -1,4 +1,9 @@
 <h1>Create a new article</h1>
+<% if @article.errors.any? %> 
+    <h4>The following errors prevented the article from being saved:</h4>
+    <%= render 'shared/errors', obj: @article %>
+<% end %>
+
  
 <%= form_with scope: :article, url: articles_path, local: true do |f| %>
   <p> 
