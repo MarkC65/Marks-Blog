@@ -1,9 +1,12 @@
 <% if flash.any? %>
-  <h4>
     <% flash.each do |m| %>
-      <% if m[0] == "top" %>
-        <%= m[1] %>
-      <% end %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <% if m[0] == "top" %>
+          <%= m[1] %>
+        <% end %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     <% end %>
-  </h4>
 <% end %>

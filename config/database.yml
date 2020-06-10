@@ -4,24 +4,32 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
-default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  <% client = Aws::SSM::Client.new(region: 'eu-west-2') %>
+  username: <%= client.get_parameter({ name: "/db/development/alpha-blog/user", with_decryption: false })[0][:value] %>
+  password: <%= client.get_parameter({ name: "/db/development/alpha-blog/password", with_decryption: true })[0][:value] %>
+  database: <%= client.get_parameter({ name: "/db/development/alpha-blog/dbname", with_decryption: false })[0][:value] %>
+  port: <%= client.get_parameter({ name: "/db/development/alpha-blog/port", with_decryption: false })[0][:value] %>
+  url: postgresql://<%= client.get_parameter({ name: "/db/development/alpha-blog/host", with_decryption: false })[0][:value] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  url: sqlite3://localhost
   database: db/test.sqlite3
-
-production:
-  adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  url: <%= ENV["DATABASE_URL"] %>
+
+production:
+  <% client = Aws::SSM::Client.new(region: 'eu-west-2') %>
+  username: <%= client.get_parameter({ name: "/db/production/alpha-blog/user", with_decryption: false })[0][:value] %>
+  password: <%= client.get_parameter({ name: "/db/production/alpha-blog/password", with_decryption: true })[0][:value] %>
+  database: <%= client.get_parameter({ name: "/db/production/alpha-blog/dbname", with_decryption: false })[0][:value] %>
+  port: <%= client.get_parameter({ name: "/db/production/alpha-blog/port", with_decryption: false })[0][:value] %>
+  url: postgresql://<%= client.get_parameter({ name: "/db/production/alpha-blog/host", with_decryption: false })[0][:value] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000

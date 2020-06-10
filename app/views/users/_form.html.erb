@@ -1,0 +1,51 @@
+<% if @user.errors.any? %> 
+  <div class="alert alert-dismisible fade show" role="alert" id="alert-container">
+    <h4 class="alert-heading">The following errors prevented the user from being saved:
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <%= render 'shared/errors', obj: @user %>
+    </h4>
+  </div> 
+<% end %>
+
+<%= form_with(model: @user,  local: true) do | f | %>
+  <div class="form-group row" id="form-label">
+    <%= f.label :username, class: "col-2 col-form-label" %>
+    <div class="col-10">
+      <%= f.text_field :username, class: "form-control shadow rounded", placeholder: "Enter unique username" %>
+    </div>
+  </div>
+  <div class="form-group row" id="form-label">
+    <%= f.label :display_name, class: "col-2 col-form-label" %>
+    <div class="col-10">
+    <%= f.text_field :display_name, rows:10, class: "form-control shadow rounded", placeholder: "Enter your Display Name" %>
+    </div>
+  </div>
+  <div class="form-group row" id="form-label">
+    <%= f.label :email, class: "col-2 col-form-label" %>
+    <div class="col-10">
+    <%= f.email_field :email, class: "form-control shadow rounded", placeholder: "Enter your Email Address" %>
+    </div>
+  </div>
+  <div class="form-group row" id="form-label">
+    <%= f.label :password, class: "col-2 col-form-label" %>
+    <div class="col-10">
+    <%= f.password_field :password, class: "form-control shadow rounded", placeholder: "Enter a valid password" %>
+    </div>
+  </div>
+  <div class="form-group row justify-content-md-center">
+    <div>
+      <% if @user.new_record? %>
+        <%= f.submit "Sign up", class: "btn btn-success"  %>
+      <% else %>
+        <%= f.submit "Update", class: "btn btn-success"  %>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group row justify-content-md-center">
+    <div>
+      <%= link_to '[ Cancel and Return to Home ]', root_path, class: "text-info"%>
+    </div>
+  </div>
+<% end %>

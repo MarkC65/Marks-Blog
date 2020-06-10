@@ -1,0 +1,28 @@
+<% if @category.errors.any? %> 
+    <div class="alert alert-dismisible fade show" role="alert" id="alert-container">
+      <h4 class="alert-heading">The following errors prevented the category from being saved:
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </h4>
+      <%= render 'shared/errors', obj: @category %>
+      </div> 
+  <% end %>
+
+  <%= form_for(@category,  :html=>{class: "form-horizontal", role: "form"}) do | f | %>
+    <div class="form-group row justify-content-md-center mt-4">
+      <div class="col-sm-4">
+        <%= f.text_field :name, class: "form-control shadow rounded", placeholder: "Name of new category", autofocus: true %>
+      </div>
+    </div>
+    <div class="form-group row justify-content-md-center">
+      <div>
+        <%= f.submit class: "btn btn-success"  %>
+      </div>
+    </div>
+    <div class="form-group row justify-content-md-center">
+      <div>
+        <%= link_to '[ Cancel and Return to Index ]', categories_path, class: "text-info"%>
+      </div>
+    </div>
+  <% end %>

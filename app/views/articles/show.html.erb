@@ -1,8 +1,52 @@
-<h1>Showing article details</h1>
-
-<p><strong>Title: </strong><%= @article.title %></p>
-<p><strong>Description: </strong><%= @article.description %></p>
-
-<%= link_to 'Edit', edit_article_path(@article) %> |
-<%= link_to 'Delete', article_path(@article), method: :delete, data: { confirm: "Are you sure?" } %> |
-<%= link_to 'Return to articles listing', articles_path %> 
+<h2 class="text-center mt-4 mb-4"><%= @article.title %></h2>
+<div class="container"> 
+<div class="row justify-content-md-center">
+  <div class="col-8">
+    <div class="card text-center shadow mb-2 bg-white rounded">
+      <div class="card-header font-italic">
+        by <%= @article.user.display_name %>
+        <%= link_to avatar_for(@article.user), user_path(@article.user) %>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <%= @article.description %>
+        </p>
+        <tbody>
+          <tr>
+            <p>
+            <%= render @article.categories %>
+            </p>
+          </tr>
+          <tr>
+            <% if logged_in? && (@article.user == current_user || current_user.admin?) %>
+              <td><%= link_to "Edit", edit_article_path(@article), class: "btn btn-success special-card text-white" %></td>
+              <td><%= link_to "Delete", article_path(@article), method: :delete, data: { confirm: "Are you sure?"}, class: "btn btn-danger special-card text-white" %></td>
+            <% end %>
+          </tr>
+        </tbody>
+        <% if @article_comment_ct > 0 %>
+          <div class="flickr_pagination mb-0">
+            <div class="page_info">
+              <%= page_entries_info @article_comments %>
+            </div>
+            <%= will_paginate @article_comments, :container => false %>
+          </div>
+          <% @article_comments.each do | comment | %>
+            <%= truncate(comment[:comment], length: 50) %>&nbsp &nbsp
+            <%= comment[:updated_at] %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="card-footer text-muted">
+        Created: <%= time_ago_in_words(@article.created_at) %> ago; Last Edited: <%= time_ago_in_words(@article.updated_at) %> ago
+      </div>
+    </div>
+    <p></p>
+    <div class="form-group row justify-content-md-center">
+      <div>
+        <%= link_to '[ Cancel and Return to Index ]', articles_path, class: "text-info"%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

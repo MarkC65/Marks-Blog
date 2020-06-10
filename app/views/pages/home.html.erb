@@ -1,4 +1,9 @@
-<h1>This is the Home page</h1>
-
-<%= link_to 'Articles listing', articles_path %> |
-<%= link_to 'About page', about_path %> 
+<div class="container" id="home-container">
+  <div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to Mark's Blog</h1>
+    <p class="lead">This is a simple blog, developed in Ruby on Rails. </p>
+    <hr class="my-4">
+    <p>It utilising new skills in Ruby, Rails, Minitest, Bootstrap4, SQL, Git, AWS and Heroku.</p>
+    <%= link_to "Sign Up", signup_path, class: "btn btn-success btn-lg" %>
+  </div>
+</div>

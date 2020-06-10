@@ -1,0 +1,14 @@
+<div id="page-content">
+  <h1 class="text-center mt-4 mb-2"> <%= "Category: #{@category.name}" %> </h1>
+  <div class="text-center">
+    <tbody>
+      <tr>
+      <% if logged_in? && current_user.admin? %>
+        <td><%= link_to "Edit", edit_category_path(@category), class: "btn-sm btn-success special-card text-white" %></td>
+        <td><%= link_to "Delete", category_path(@category), method: :delete, data: { confirm: "Are you sure you want to delete this category?"}, class: "btn-sm btn-danger special-card text-white" %></td>
+      <% end %>
+      </tr>
+    </tbody>
+  </div>
+  <%= render "articles/articles" %>
+</div>

@@ -1,0 +1,31 @@
+<div id="page-content">
+  <h1 class="text-center mt-4 mb-2">Listing All Categories</h1>
+  <div class="container"> 
+    <div class="flickr_pagination">
+      <div class="page_info">
+        <%= page_entries_info @categories %>
+      </div>
+      <%= will_paginate @categories, :container => false %>
+    </div>
+    <% @categories.each do | category | %>
+      <div class="row justify-content-md-center">
+        <div class="col-8">
+          <div class="card text-center shadow mt-4 mb-0 bg-white rounded">
+            <div class="card-body">
+              <h5 class="card-title"><%= link_to category.name, category_path(category), class: "text-success" %></h5>
+              <%= pluralize(category.articles.count, "article") %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <p>
+    </p>
+    <div class="flickr_pagination mb-5">
+      <div class="page_info">
+        <%= page_entries_info @categories %>
+      </div>
+      <%= will_paginate @categories, :container => false %>
+    </div>
+  </div>
+</div>
