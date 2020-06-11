@@ -1,7 +1,16 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-10">
-      <%= render 'shared/errors', obj: @article %>
+      <% if @article.errors.any? %> 
+        <div class="alert alert-dismisible fade show" role="alert" id="alert-container">
+          <h4 class="alert-heading">The following errors prevented the article from being saved:
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          </h4>
+          <%= render 'shared/errors', obj: @article %>
+        </div> 
+      <% end %>
       <%= form_with(model: @article,  local: true) do | f | %>
         <div class="form-group row" id="form-label">
           <%= f.label :title, class: "col-2 col-form-label" %>
@@ -12,7 +21,7 @@
         <div class="form-group row" id="form-label">
           <%= f.label :description, class: "col-2 col-form-label" %>
           <div class="col-10">
-          <%= f.text_area :description, rows:10, class: "form-control shadow rounded", placeholder: "Description of Article" %>
+            <%= f.text_area :description, rows:10, class: "form-control shadow rounded", placeholder: "Description of Article" %>
           </div>
         </div>
       
