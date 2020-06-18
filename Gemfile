@@ -26,6 +26,11 @@ gem 'aws-sdk-ssm', '>= 1.79'
 gem 'will_paginate', '~> 3.2', '>= 3.2.1'
 gem "bootstrap", ">= 4.5.0"
 
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+if RUBY_PLATFORM.match?(/bccwin|cygwin|emx|mingw|mswin|wince|java/)
+  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby] 
+end
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -57,6 +62,3 @@ group :test do
   gem 'webdrivers'
   gem 'rails-controller-testing'
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
