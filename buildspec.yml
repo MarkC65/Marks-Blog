@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.7
+    commands:
+      - echo "Installing Something"
+      - yum update -y
+      - curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
+      - curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+      - yum install -y nodejs yarn git
+
+  pre_build:
+    commands:
+      - echo "We are in the pre-build phase."
+      - aws s3 cp s3://eb-rails-server/aws-eb-demo.zip /var
+      - mkdir /var/www && cd /var/www
+      - unzip ../aws-eb-demo.zip -d .
+      - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
+      - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
+      - export RAILS_ENV=production
+      - export RACK_ENV=production
+      - export NODE_ENV=production
+
+  build:
+    commands:
+      - echo "We are in the Build phase !"
+      - /opt/elasticbeanstalk/.rbenv/shims/bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+      - /opt/elasticbeanstalk/.rbenv/shims/bundle exec rake assets:precompile RAILS_ENV=production
+
+  post_build:
+    commands:
+      - echo "We are in the post-build phase."
+      - zip -r /var/aws-eb-demo-deployable.zip /var/www/
+      - aws s3 cp /var/aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
