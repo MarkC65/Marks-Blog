@@ -23,6 +23,7 @@ phases:
   pre_build:
     commands:
       - echo "We are in the pre-build phase."
+      - cd /var
       - aws s3 cp s3://eb-rails-server/aws-eb-demo.zip /var
       - mkdir /var/www && cd /var/www
       - unzip ../aws-eb-demo.zip -d .
@@ -35,11 +36,12 @@ phases:
   build:
     commands:
       - echo "We are in the Build phase !"
-      - /opt/elasticbeanstalk/.rbenv/shims/bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
-      - /opt/elasticbeanstalk/.rbenv/shims/bundle exec rake assets:precompile RAILS_ENV=production
+      - bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+      - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
     commands:
       - echo "We are in the post-build phase."
-      - zip -r /var/aws-eb-demo-deployable.zip /var/www/
-      - aws s3 cp /var/aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
+      - cd /var/www
+      - zip -r ../aws-eb-demo-deployable.zip . 
+      - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
