@@ -6,16 +6,16 @@ phases:
       ruby: 2.7
     commands:
       - echo "Installing Something"
-      - yum update -y
-      - curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
-      - yum install -y nodejs
-      - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-      - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-      - yum install -y yarn
+      # - yum update -y
+      # - curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
+      # - yum install -y nodejs
+      # - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+      # - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+      # - yum install -y yarn
       - yum install -y git unzip
-      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
-      - unzip awscliv2.zip
-      - ./aws/install
+      # - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
+      # - unzip awscliv2.zip
+      # - ./aws/install
       - gem install bundler -v 2.1.4
       - gem install rails -v 6.0.3.1
 
