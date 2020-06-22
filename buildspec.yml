@@ -12,7 +12,7 @@ phases:
       # - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
       # - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
       # - yum install -y yarn
-      - yum install -y git unzip
+      # - yum install -y git unzip
       # - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
       # - unzip awscliv2.zip
       # - ./aws/install
@@ -36,7 +36,10 @@ phases:
   build:
     commands:
       - echo "We are in the Build phase !"
-      - bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+      - bundle config set deployment 'true'
+      - bundle config set path 'vendor/bundle'
+      - bundle config set without 'development:test'
+      - bundle install --binstubs vendor/bundle/bin -j4
       - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
