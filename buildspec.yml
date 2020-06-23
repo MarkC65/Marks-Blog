@@ -48,3 +48,7 @@ phases:
       - cd /var/www
       - zip -r ../aws-eb-demo-deployable.zip . 
       - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
+
+cache:
+  paths:
+    - '/vendor/cache/*'
