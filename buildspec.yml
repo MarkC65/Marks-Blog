@@ -27,8 +27,8 @@ phases:
       - aws s3 cp s3://eb-rails-server/aws-eb-demo.zip /var
       - mkdir /var/www && cd /var/www
       - unzip ../aws-eb-demo.zip -d .
-      # - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
-      # - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
+      - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
+      - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
       # - export RAILS_ENV=production
       # - export RACK_ENV=production
       # - export NODE_ENV=production
