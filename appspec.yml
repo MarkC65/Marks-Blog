@@ -1,0 +1,67 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var
+permissions:
+  - object: /aws/codedeploy
+    pattern: "*.sh"
+    owner: root
+    group: root
+    mode: 755
+    type:
+      - file
+hooks:
+  # BeforeBlockTraffic:
+    # You can use this deployment lifecycle event to run tasks on instances before they are
+    # deregistered from a load balancer.
+  # AfterBlockTraffic: 
+    # You can use this deployment lifecycle event to run tasks on instances after they are 
+    # deregistered from a load balancer.
+  ApplicationStop:
+    # Find a way to identify the Rails server process and kill it
+    - location: aws/codedeploy/stop_server.sh
+      timeout: 30
+      runas: root
+  # DownloadBundle:
+    # This event is reserved for the CodeDeploy agent and cannot be used to run scripts.
+    # During this deployment lifecycle event, the CodeDeploy agent copies the application revision 
+    # files to a temporary location:
+    # /opt/codedeploy-agent/deployment-root/deployment-group-id/deployment-id/deployment-archive 
+    # folder on Amazon Linux, Ubuntu Server, and RHEL Amazon EC2 instances.
+  BeforeInstall:
+    # BeforeInstall – You can use this deployment lifecycle event for preinstall tasks, such as 
+    # decrypting files and creating a backup of the current version.
+    - location: aws/codedeploy/before_install.sh
+      timeout: 10
+      runas: root
+  AfterInstall:
+    # AfterInstall – You can use this deployment lifecycle event for tasks such as configuring 
+    # your application or changing file permissions.
+    # Install the appropriate master.key / credentials files for the environment.
+    # Use the "$DEPLOYMENT_GROUP_NAME" env var to determine the environment
+    # Point to correct DB
+    # Set the env vars for the appropriate staging/test or production environment
+    # Disable redis caching for non-production. Point to correct elasticache in production
+    - location: aws/codedeploy/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    # ApplicationStart – You typically use this deployment lifecycle event to restart services
+    # that were stopped during ApplicationStop.
+    # Run the rails server command
+    - location: aws/codedeploy/start_server.sh
+      timeout: 10
+      runas: root
+  ValidateService:
+    # This is the last deployment lifecycle event. It is used to verify the deployment was
+    # completed successfully.
+    - location: aws/codedeploy/create_test_db.sh
+      timeout: 10
+      runas: root
+  # BeforeAllowTraffic: 
+    # You can use this deployment lifecycle event to run tasks on instances before they are 
+    # registered with a load balancer.
+  # AfterAllowTraffic: 
+    # You can use this deployment lifecycle event to run tasks on instances after they are 
+    # registered with a load balancer.
