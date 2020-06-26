@@ -47,7 +47,7 @@ phases:
     commands:
       - echo "We are in the post-build phase."
       - cd /var/www
-      - rails test
+      - bundle exec rails test
       - zip -r ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/include.lst
       - zip -d ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/exclude.lst
       - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
