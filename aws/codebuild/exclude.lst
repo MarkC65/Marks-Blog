@@ -1,0 +1,12 @@
+.bundle/*
+.bundle
+db/*sqlite3*
+log/*.log
+config/secrets.yml
+node_modules/*
+public/assets
+public/packs
+public/packs-test
+yarn-error.log
+yarn-debug.log*
+.yarn-integrity

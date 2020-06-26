@@ -27,8 +27,8 @@ phases:
       - aws s3 cp s3://eb-rails-server/aws-eb-demo.zip /var
       - mkdir /var/www && cd /var/www
       - unzip ../aws-eb-demo.zip -d .
-      - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
-      - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
+      # - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
+      # - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
       # - export RAILS_ENV=production
       # - export RACK_ENV=production
       # - export NODE_ENV=production
@@ -40,16 +40,14 @@ phases:
       # - bundle config set path 'vendor/bundle'
       # - bundle config set without 'development:test'
       # - bundle install --binstubs vendor/bundle/bin -j4
-      - bundle install
-      - bundle exec rake assets:precompile RAILS_ENV=production
+      - bundle install --without production 
+      # - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
     commands:
       - echo "We are in the post-build phase."
       - cd /var/www
-      - zip -r ../aws-eb-demo-deployable.zip . 
+      - rails test
+      - zip -r ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/include.lst
+      - zip -d ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/exclude.lst
       - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
-
-cache:
-  paths:
-    - '/vendor/cache/*'
