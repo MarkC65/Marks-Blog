@@ -4,7 +4,7 @@ db/*sqlite3*
 log/*.log
 config/secrets.yml
 node_modules/*
-public/assets
+public/assets/*
 public/packs
 public/packs-test
 yarn-error.log
