@@ -3,6 +3,6 @@
 # decrypting files and creating a backup of the current version.
 echo "BeforeInstall starting..."
 cd /var
-rm -f ./aws-eb-demo-deployable.zip
+rm -rf /var/www
 mkdir /var/www
 echo "BeforeInstall complete."
