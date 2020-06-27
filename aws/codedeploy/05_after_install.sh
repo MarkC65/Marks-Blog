@@ -8,7 +8,6 @@
 # Disable redis caching for non-production. Point to correct elasticache in production
 echo "AfterInstall starting..."
 cd /var/www
-# unzip ../aws-eb-demo-deployable.zip -d .
 if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
 then
   echo "Detected staging environment"

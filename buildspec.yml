@@ -4,21 +4,6 @@ phases:
   install:
     runtime-versions:
       ruby: 2.7
-    commands:
-      - echo "Installing Something"
-      # - yum update -y
-      # - curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
-      # - yum install -y nodejs
-      # - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-      # - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-      # - yum install -y yarn
-      # - yum install -y git unzip
-      # - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
-      # - unzip awscliv2.zip
-      # - ./aws/install
-      # - gem install bundler -v 2.1.4
-      # - gem install rails -v 6.0.3.1
-
 
   pre_build:
     commands:
@@ -29,24 +14,15 @@ phases:
       - unzip ../aws-eb-demo.zip -d .
       - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
       - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
-      - export RAILS_ENV=production
-      - export RACK_ENV=production
-      - export NODE_ENV=production
 
   build:
     commands:
       - echo "We are in the Build phase !"
-      # - bundle config set deployment 'true'
-      # - bundle config set path 'vendor/bundle'
-      # - bundle config set without 'development:test'
-      - bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
-      - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
     commands:
       - echo "We are in the post-build phase."
       - cd /var/www
-      # - bundle exec rails test
       - zip -r ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/include.lst
       - zip -d ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/exclude.lst
       - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
