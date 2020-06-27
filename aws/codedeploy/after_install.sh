@@ -7,9 +7,8 @@
 # Set the env vars for the appropriate staging/test or production environment
 # Disable redis caching for non-production. Point to correct elasticache in production
 echo "AfterInstall starting..."
-mkdir /var/www
 cd /var/www
-unzip ../aws-eb-demo-deployable.zip -d .
+# unzip ../aws-eb-demo-deployable.zip -d .
 if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
 then
   echo "Detected staging environment"

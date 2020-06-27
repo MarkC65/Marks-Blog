@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var
+    destination: /var/www
 permissions:
   - object: /aws/codedeploy
     pattern: "*.sh"
