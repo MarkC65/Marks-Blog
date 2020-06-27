@@ -7,7 +7,7 @@ cd /var/www
 if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
 then
   echo "Detected staging environment"
-  bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development} &
+  bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} &
 fi
 if [ "$DEPLOYMENT_GROUP_NAME" == "Production" ]
 then

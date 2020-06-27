@@ -12,13 +12,11 @@ unzip ../aws-eb-demo-deployable.zip -d .
 if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
 then
   echo "Detected staging environment"
-  export RACK_ENV=development
+  export RACK_ENV=production
+  export RAILS_SERVE_STATIC_FILES=true
   export PORT=3000
-  # export DATABASE_URL=
   rm -rf .bundle
-  bundle install --without production
   yarn install --check-files
-  rm -rf .bundle
 fi
 
 if [ "$DEPLOYMENT_GROUP_NAME" == "Production" ]

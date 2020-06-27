@@ -36,12 +36,12 @@ phases:
   build:
     commands:
       - echo "We are in the Build phase !"
-      # - bundle config set deployment 'true'
-      # - bundle config set path 'vendor/bundle'
-      # - bundle config set without 'development:test'
-      # - bundle install --binstubs vendor/bundle/bin -j4
+      - bundle config set deployment 'true'
+      - bundle config set path 'vendor/bundle'
+      - bundle config set without 'development:test'
+      - bundle install --binstubs vendor/bundle/bin -j4
       - bundle install --without production 
-      # - bundle exec rake assets:precompile RAILS_ENV=production
+      - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
     commands:
