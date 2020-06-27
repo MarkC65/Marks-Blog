@@ -4,11 +4,7 @@
 # Run the rails server command - same command for all environments
 echo "ApplicationStart starting..."
 cd /var/www
-if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
-then
-  echo "Detected staging environment"
-  export RACK_ENV=production
-  export RAILS_SERVE_STATIC_FILES=true
-  export PORT=3000
-  bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} &
-fi
+export RACK_ENV=production
+export RAILS_SERVE_STATIC_FILES=true
+export PORT=3000
+bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} &

@@ -8,11 +8,6 @@
 # Disable redis caching for non-production. Point to correct elasticache in production
 echo "AfterInstall starting..."
 cd /var/www
-if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
-then
-  echo "Detected staging environment"
-  bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
-  bundle exec rake assets:precompile RAILS_ENV=production
-fi
-
+bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+bundle exec rake assets:precompile RAILS_ENV=production
 echo "AfterInstall complete."
