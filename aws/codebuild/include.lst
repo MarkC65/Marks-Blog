@@ -17,6 +17,7 @@ config.ru
 db
 lib
 log/.keep
+node_modules
 package.json
 postcss.config.js
 public
@@ -24,4 +25,4 @@ storage/.keep
 test
 tmp/.keep
 tmp/pids/.keep
-vendor/.keep
+vendor
