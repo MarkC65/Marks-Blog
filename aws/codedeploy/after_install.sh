@@ -15,25 +15,8 @@ then
   export RACK_ENV=production
   export RAILS_SERVE_STATIC_FILES=true
   export PORT=3000
-  rm -rf .bundle
-  yarn install --check-files
+  bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+  bundle exec rake assets:precompile RAILS_ENV=production
 fi
 
-if [ "$DEPLOYMENT_GROUP_NAME" == "Production" ]
-then
-  export RACK_ENV=production
-  export RAILS_SERVE_STATIC_FILES=true
-  export PORT=80
-  export REDIS_URL=redis://marks-blog.wezsnv.0001.euw2.cache.amazonaws.com:6379
-  unset DATABASE_URL
-  aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
-  aws s3 cp s3://eb-rails-server/master.key ./config/master.key 
-  rm -r .bundle
-  bundle config set deployment 'true'
-  bundle config set path 'vendor/bundle'
-  bundle config set without 'development:test'
-  bundle install --binstubs vendor/bundle/bin -j4
-  yarn install --check-files
-  rm -rf .bundle
-fi
 echo "AfterInstall complete."

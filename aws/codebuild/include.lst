@@ -17,7 +17,6 @@ config.ru
 db
 lib
 log/.keep
-node_modules
 package.json
 postcss.config.js
 public
