@@ -40,7 +40,6 @@ phases:
       - bundle config set path 'vendor/bundle'
       - bundle config set without 'development:test'
       - bundle install --binstubs vendor/bundle/bin -j4
-      - bundle install --without production 
       - bundle exec rake assets:precompile RAILS_ENV=production
 
   post_build:
