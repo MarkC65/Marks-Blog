@@ -5,5 +5,4 @@ echo "BeforeInstall starting..."
 cd /var
 rm -f ./aws-eb-demo-deployable.zip
 mkdir /var/www
-cd /var/www
 echo "BeforeInstall complete."

@@ -12,9 +12,6 @@ cd /var/www
 if [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ]
 then
   echo "Detected staging environment"
-  export RACK_ENV=production
-  export RAILS_SERVE_STATIC_FILES=true
-  export PORT=3000
   bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
   bundle exec rake assets:precompile RAILS_ENV=production
 fi
