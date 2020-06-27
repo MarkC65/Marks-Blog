@@ -3,7 +3,9 @@
 db/*sqlite3*
 log/*.log
 config/secrets.yml
-public/packs
+public/assets/*
+public/packs/*
 public/packs-test
+vendor/bundle/*
 yarn-error.log
 yarn-debug.log*

@@ -9,9 +9,3 @@ then
   echo "Detected staging environment"
   bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} &
 fi
-if [ "$DEPLOYMENT_GROUP_NAME" == "Production" ]
-then
-  echo "Detected staging environment"
-  bundle exec puma -t 5:5 -p ${PORT:-80} -e ${RACK_ENV:-production} &
-fi
-echo "ApplicationStart complete."
