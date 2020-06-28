@@ -35,7 +35,7 @@ hooks:
     - location: aws/codedeploy/04_before_install.sh
       timeout: 10
       runas: root
-  AfterInstall:
+  # AfterInstall:
     # AfterInstall – You can use this deployment lifecycle event for tasks such as configuring 
     # your application or changing file permissions.
     # Install the appropriate master.key / credentials files for the environment.
@@ -43,9 +43,9 @@ hooks:
     # Point to correct DB
     # Set the env vars for the appropriate staging/test or production environment
     # Disable redis caching for non-production. Point to correct elasticache in production
-    - location: aws/codedeploy/05_after_install.sh
-      timeout: 600
-      runas: root
+    # - location: aws/codedeploy/05_after_install.sh
+    #   timeout: 600
+    #   runas: root
   ApplicationStart:
     # ApplicationStart – You typically use this deployment lifecycle event to restart services
     # that were stopped during ApplicationStop.

@@ -9,8 +9,8 @@
 # Disable redis caching for non-production. Point to correct elasticache in production
 echo "AfterInstall starting..." >> tmp/05.txt
 cd /var/www >> tmp/05.txt
-aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc >> tmp/05.txt
-aws s3 cp s3://eb-rails-server/master.key ./config/master.key >> tmp/05.txt
-bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment >> tmp/05.txt
-bundle exec rake assets:precompile RAILS_ENV=production >> tmp/05.txt
+# aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc >> tmp/05.txt
+# aws s3 cp s3://eb-rails-server/master.key ./config/master.key >> tmp/05.txt
+# bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment >> tmp/05.txt
+# bundle exec rake assets:precompile RAILS_ENV=production >> tmp/05.txt
 echo "AfterInstall complete."
