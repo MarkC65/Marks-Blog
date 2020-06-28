@@ -1,28 +1,36 @@
 version: 0.2
 
+env:
+  shell: bash
+  variables:
+    RACK_ENV: "production"
+    NODE_ENV: "production"
+    RAILS_ENV: "production"
+
 phases:
   install:
     runtime-versions:
-      ruby: 2.7
+      ruby: 2.7.1
+      nodejs: 14.x
 
   pre_build:
     commands:
       - echo "We are in the pre-build phase."
-      - cd /var
-      - aws s3 cp s3://eb-rails-server/aws-eb-demo.zip /var
-      - mkdir /var/www && cd /var/www
-      - unzip ../aws-eb-demo.zip -d .
-      - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
-      - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
-
+      
   build:
     commands:
       - echo "We are in the Build phase !"
+    finally:
+      - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
+      - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
 
   post_build:
     commands:
       - echo "We are in the post-build phase."
-      - cd /var/www
-      - zip -r ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/include.lst
-      # - zip -d ../aws-eb-demo-deployable.zip -@ < ./aws/codebuild/exclude.lst
-      - aws s3 cp ../aws-eb-demo-deployable.zip s3://eb-rails-server/aws-eb-demo-deployable.zip
+      - rm -rf .bundle
+      - bundle install --without development:test --deployment
+      - bundle exec rake assets:precompile RAILS_ENV=production
+
+artifacts:
+  files:
+    - '**/*'
