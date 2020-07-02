@@ -1,0 +1,124 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  
+  Description:
+    Creates the LaunchTemplate to be used by the ASG.
+  
+  # Metadata:
+  #   template metadata
+  
+  # Parameters:
+  
+  # Mappings: 
+  
+  # Conditions:
+  
+  # Transform:
+  #   set of transforms
+  
+  Resources:
+    MarksBlogEC2LaunchTemplate:
+      Type: AWS::EC2::LaunchTemplate
+      Properties:
+        LaunchTemplateData:
+          # BlockDeviceMappings: 
+          #   - BlockDeviceMapping
+          # CapacityReservationSpecification: 
+          #   CapacityReservationSpecification
+          # CpuOptions: 
+          #   CpuOptions
+          # CreditSpecification: 
+          #   CreditSpecification
+          # DisableApiTermination: Boolean
+          # EbsOptimized: Boolean
+          # ElasticGpuSpecifications: 
+          #   - ElasticGpuSpecification
+          # ElasticInferenceAccelerators: 
+          #   - LaunchTemplateElasticInferenceAccelerator
+          # HibernationOptions: 
+          #   HibernationOptions
+          IamInstanceProfile: 
+            Name: mljEC2S3
+          ImageId: ami-0b514499d35b6a6f4
+          # InstanceInitiatedShutdownBehavior: String
+          InstanceMarketOptions: 
+            MarketType: spot
+            SpotOptions: 
+              # BlockDurationMinutes: Integer
+              InstanceInterruptionBehavior: terminate
+              # MaxPrice: String
+              SpotInstanceType: one-time
+              # ValidUntil: String
+          InstanceType: t2.micro
+          # KernelId: String
+          KeyName: AWS_KeyPair_1
+          # LicenseSpecifications: 
+          #   - LicenseSpecification
+          # MetadataOptions: 
+          #   MetadataOptions
+          # Monitoring: 
+          #   Monitoring
+          # NetworkInterfaces: 
+          #   - NetworkInterface
+          # Placement: 
+          #   Placement
+          # RamDiskId: String
+          SecurityGroupIds: 
+            - !Ref MarksBlogSecGrp
+          # SecurityGroups: 
+            #   - String
+          TagSpecifications: 
+            - ResourceType: instance
+              Tags:
+                - Key: "MarksBlog"
+                  Value: "True" 
+            - ResourceType: volume
+              Tags:
+                - Key: "MarksBlog"
+                  Value: "True" 
+          # UserData: String
+        LaunchTemplateName: MarksBlog
+
+    MarksBlogSecGrp:
+      Type: AWS::EC2::SecurityGroup
+      Properties: 
+        GroupDescription: "Marks Blog Access to Web Servers"
+        # GroupName: String
+        # SecurityGroupEgress: 
+        #   - Egress
+        SecurityGroupIngress: 
+          - CidrIp: "0.0.0.0/0"
+            # CidrIpv6: String
+            Description: "SSH access"
+            FromPort: 22
+            IpProtocol: "tcp"
+            # SourcePrefixListId: String
+            # SourceSecurityGroupId: String
+            # SourceSecurityGroupName: String
+            # SourceSecurityGroupOwnerId: String
+            ToPort: 22
+        Tags: 
+          - Key: "MarksBlog"
+            Value: "True"
+        VpcId: vpc-0e62faea52745003d
+    
+  Outputs:
+    MarksBlogLaunchTemplateOutput:
+      Description: LaunchTemplate to be used by ASG
+      Value: !Ref MarksBlogEC2LaunchTemplate
+      Export:
+        Name: MarksBlogLaunchTemplate
+    MarksBlogLaunchTemplateVer:
+      Description: Version of LaunchTemplate to be used by ASG
+      Value: 
+        Fn::GetAtt:
+          - MarksBlogEC2LaunchTemplate
+          - LatestVersionNumber
+      Export:
+        Name: MarksBlogLaunchTemplateVer
+    MarksBlogSecGrpOutput:
+      Description: Security Group used by Instances created from Template
+      Value: !Ref MarksBlogSecGrp
+      Export:
+        Name: MarksBlogInstanceSecGrp
+     

@@ -1,0 +1,167 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  
+  Description:
+    Creates EC2 instances in ASG target groups accessible behind the existing ALB.
+  
+  # Metadata:
+  #   template metadata
+  
+  Parameters:
+    Env:
+      Type: String
+      Default: staging
+      AllowedValues: 
+        - staging
+        - qa
+        - prod
+      Description: Enter staging, qa or prod. Default is staging.
+  
+  Mappings: 
+    staging:
+      asg:
+        name: MarksBlogStaging
+        tagenv: Staging
+        healthchecktype: EC2
+      instance: 
+        ami: ami-0b514499d35b6a6f4
+        type: t2.micro
+        qty: 1
+      cache:
+        type: cache.t2.micro
+        qty: 0
+    qa:
+      asg:
+        name: MarksBlogQA
+        tagenv: QA
+        healthchecktype: ELB
+      instance: 
+        ami: ami-0b514499d35b6a6f4
+        type: t2.micro
+        qty: 2
+      cache:
+        type: cache.t2.micro
+        qty: 1
+    prod:
+      asg:
+        name: MarksBlogProd
+        tagenv: Prod
+        healthchecktype: ELB
+      instance: 
+        ami: ami-0b514499d35b6a6f4
+        type: t2.micro
+        qty: 2
+      cache:
+        type: cache.t2.micro
+        qty: 1
+  
+  Conditions:
+    ProdResource: !Or [ !Equals [ !Ref Env, qa ], !Equals [ !Ref Env, prod ]]
+    StagingResource: !Equals [ !Ref Env, staging ]
+  
+  # Transform:
+  #   set of transforms
+  
+  Resources:
+    MarksBlogASG:
+      Type: AWS::AutoScaling::AutoScalingGroup
+      Properties: 
+        AutoScalingGroupName: !FindInMap [!Ref Env, asg, name]
+        AvailabilityZones: 
+          Fn::GetAZs: !Ref "AWS::Region"
+        Cooldown: 30
+        DesiredCapacity: !FindInMap [!Ref Env, instance, qty]
+        HealthCheckGracePeriod: 0
+        HealthCheckType: !FindInMap [!Ref Env, asg, healthchecktype]
+        # InstanceId: String
+        # LaunchConfigurationName: String
+        LaunchTemplate: 
+          LaunchTemplateId: 
+            Fn::ImportValue: 
+              MarksBlogLaunchTemplate
+          Version: 
+            Fn::ImportValue: 
+              MarksBlogLaunchTemplateVer
+        # LifecycleHookSpecificationList: 
+        #   - LifecycleHookSpecification
+        # LoadBalancerNames: 
+        # MaxInstanceLifetime: Integer
+        MaxSize: !FindInMap [!Ref Env, instance, qty]
+        # MetricsCollection: 
+        #   - MetricsCollection
+        MinSize: !FindInMap [!Ref Env, instance, qty]
+        # MixedInstancesPolicy: 
+        #   MixedInstancesPolicy
+        # NotificationConfigurations: 
+        #   - NotificationConfiguration
+        # PlacementGroup: String
+        # ServiceLinkedRoleARN: String
+        Tags: 
+          - Key: "MarksBlog"
+            PropagateAtLaunch: true
+            Value: "True"
+          - Key: "Env"
+            PropagateAtLaunch: true
+            Value: !FindInMap [!Ref Env, asg, tagenv]
+        TargetGroupARNs: 
+          - !If [ProdResource, !Ref MarksBlogTargetGroup , !Ref "AWS::NoValue"]
+        # TerminationPolicies: 
+        #   - String
+        # VPCZoneIdentifier: 
+        #   - String
+
+    MarksBlogTargetGroup:
+      Type: AWS::ElasticLoadBalancingV2::TargetGroup
+      Condition: ProdResource
+      Properties: 
+        # HealthCheckEnabled: Boolean
+        # HealthCheckIntervalSeconds: Integer
+        # HealthCheckPath: String
+        # HealthCheckPort: String
+        # HealthCheckProtocol: String
+        # HealthCheckTimeoutSeconds: Integer
+        # HealthyThresholdCount: Integer
+        Matcher: 
+          HttpCode: "200"
+        # Name: String
+        Port: 80
+        Protocol: "HTTP"
+        Tags: 
+          - Key: "MarksBlog"
+            Value: "True"
+          - Key: "Env"
+            Value: !FindInMap [!Ref Env, asg, tagenv]
+        # TargetGroupAttributes: 
+        #   - TargetGroupAttribute
+        # Targets: 
+        #   - TargetDescription
+        TargetType: instance
+        # UnhealthyThresholdCount: Integer
+        VpcId: vpc-0e62faea52745003d
+
+    MarksBlogSecGrpIngressRule3000:
+      Type: AWS::EC2::SecurityGroupIngress
+      Condition: StagingResource
+      Properties: 
+        CidrIp: "0.0.0.0/0"
+        Description: "HTTP access on port 3000"
+        FromPort: 3000
+        ToPort: 3000
+        GroupId: 
+          Fn::ImportValue: 
+            MarksBlogInstanceSecGrp
+        IpProtocol: "tcp"
+
+    MarksBlogSecGrpIngressRule80:
+      Type: AWS::EC2::SecurityGroupIngress
+      Condition: ProdResource
+      Properties: 
+        CidrIp: "0.0.0.0/0"
+        Description: "HTTP access on port 80"
+        FromPort: 80
+        ToPort: 80
+        GroupId: 
+          Fn::ImportValue: 
+            MarksBlogInstanceSecGrp
+        IpProtocol: "tcp"
+                

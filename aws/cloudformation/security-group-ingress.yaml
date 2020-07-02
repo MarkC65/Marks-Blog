@@ -1,0 +1,30 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  
+  Description:
+    Adds Security Group Ingress rule to common SG used by ASG Instances.
+  
+  # Metadata:
+  #   template metadata
+  
+  # Parameters:
+  
+  # Mappings: 
+  
+  # Conditions:
+  
+  # Transform:
+  #   set of transforms
+  
+  Resources:
+    MarksBlogSecGrpIngressRule:
+      Type: AWS::EC2::SecurityGroupIngress
+      Properties: 
+        CidrIp: "0.0.0.0/0"
+        Description: "HTTP access on port 3000"
+        FromPort: 3000
+        ToPort: 3000
+        GroupId: 
+          Fn::ImportValue: 
+            MarksBlogInstanceSecGrp
+        IpProtocol: "tcp"

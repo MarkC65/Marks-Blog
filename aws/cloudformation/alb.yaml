@@ -1,0 +1,58 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  
+  Description:
+    Creates the basic ALB to be added to by the ASG stacks.
+  
+  # Metadata:
+  #   template metadata
+  
+  # Parameters:
+  #   None
+  
+  # Mappings: 
+  #   Mapping01: 
+  #     Key01: 
+  #       Name: Value01
+  #     Key02: 
+  #       Name: Value02
+  #     Key03: 
+  #       Name: Value03
+  
+  # Conditions:
+  #   set of conditions
+  
+  # Transform:
+  #   set of transforms
+  
+  Resources:
+    MarksBlogALB:
+      Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+      Properties: 
+        IpAddressType: ipv4
+        # LoadBalancerAttributes: 
+        #   - deletion_protection.enabled: false
+        #   - idle_timeout.timeout_seconds: 60
+        # Name: String
+        Scheme: internet-facing
+        SecurityGroups: 
+          - sg-04fc6a1ba7e882b20
+        # SubnetMappings: 
+        #   - SubnetMapping
+        Subnets: 
+          - subnet-03513b71bf78efba2
+          - subnet-0678857d188dac0bd
+          - subnet-0cfa22035e5dcce82
+        Tags: 
+          - Key: "marks-blog"
+            Value: "True"
+        Type: application
+  
+  Outputs:
+    MarksBlogAppLoadBalancer:
+      Description: Application Load Balancer created for Mark's Blog QA and Prod services
+      Value: !Ref MarksBlogALB
+      Export:
+        Name: MarksBlogALB
+  
+
