@@ -53,7 +53,7 @@ def lambda_handler(event, context):
             )
             put_job_success(job_id, 'RDS stop_db_instance call completed.') 
         else:
-            put_job_failure(job_id, 'RDS DB not in Available state.')
+            put_job_success(job_id, 'RDS DB not in Available state. (Success)')
     except Exception as e:
         # If any other exceptions which we didn't expect are raised
         # then fail the job and log the exception message.
