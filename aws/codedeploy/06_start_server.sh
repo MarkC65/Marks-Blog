@@ -5,6 +5,7 @@
 # Run the rails server command - same command for all environments
 echo "ApplicationStart starting..."
 cd /var/www >> tmp/06.txt
+./aws/script/set-hostname.sh >> tmp/06.txt
 export RACK_ENV=production >> tmp/06.txt
 export RAILS_SERVE_STATIC_FILES=true >> tmp/06.txt
 export PORT=3000 >> tmp/06.txt
