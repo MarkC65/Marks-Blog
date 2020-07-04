@@ -4,13 +4,13 @@ files:
   - source: /
     destination: /var/www
 permissions:
-  - object: /aws/codedeploy
+  - object: /var/www/aws/codedeploy
     pattern: "*.sh"
     owner: root
     group: root
     mode: 755
     type:
-      - directory
+      - file
 hooks:
   # BeforeBlockTraffic:
     # You can use this deployment lifecycle event to run tasks on instances before they are
