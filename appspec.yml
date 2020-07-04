@@ -10,7 +10,7 @@ permissions:
     group: root
     mode: 755
     type:
-      - file
+      - directory
 hooks:
   # BeforeBlockTraffic:
     # You can use this deployment lifecycle event to run tasks on instances before they are
