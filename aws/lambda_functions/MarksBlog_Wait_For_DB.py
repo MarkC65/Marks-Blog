@@ -1,6 +1,10 @@
 from __future__ import print_function
 import boto3
 import traceback
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+
+patch_all()
 
 client = boto3.client('rds')
 code_pipeline = boto3.client('codepipeline')

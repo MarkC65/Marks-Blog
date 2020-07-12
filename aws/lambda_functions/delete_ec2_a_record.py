@@ -3,6 +3,10 @@ import boto3
 import json
 import traceback
 import botocore.response as br
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+
+patch_all()
 
 code_pipeline = boto3.client('codepipeline')
 client_r53 = boto3.client('route53')
