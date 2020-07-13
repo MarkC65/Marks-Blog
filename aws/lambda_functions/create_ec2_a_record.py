@@ -1,5 +1,6 @@
 from __future__ import print_function
 import boto3
+import botocore
 import json
 import traceback
 from aws_xray_sdk.core import xray_recorder
