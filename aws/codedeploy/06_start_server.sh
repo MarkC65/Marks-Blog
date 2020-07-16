@@ -9,4 +9,4 @@ cd /var/www
 export RACK_ENV=production
 export RAILS_SERVE_STATIC_FILES=true
 export PORT=3000
-bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} > /dev/null 2> /dev/null < /dev/null &
+bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-production} &> /dev/null < /dev/null &
