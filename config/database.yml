@@ -23,6 +23,6 @@ test:
 production:
   adapter: postgresql
   <% aws_client = Aws::SSM::Client.new(region: 'eu-west-2') %>
-  url: postgresql://<%= aws_client.get_parameter({ name: "/db/production/marks-blog/database", with_decryption: true })[0][:value] %>
+  url: <%= aws_client.get_parameter({ name: "/db/production/marks-blog/database", with_decryption: true })[0][:value] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
