@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 6.0.3.1'
+gem 'rails', '>= 6.0.3.2'
 # Use postgres for testing availability of aws RDS Dbs
 gem 'pg'
 # Use Puma as the app server
@@ -25,6 +25,9 @@ gem 'gravtastic'
 gem 'aws-sdk-ssm', '>= 1.79'
 gem 'will_paginate', '~> 3.2', '>= 3.2.1'
 gem "bootstrap", ">= 4.5.0"
+
+# Address security issue: CVE-2020-8184
+gem "rack", ">= 2.2.3"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 if RUBY_PLATFORM.match?(/bccwin|cygwin|emx|mingw|mswin|wince|java/)
