@@ -12,23 +12,22 @@ phases:
     runtime-versions:
       ruby: 2.7
 
-  pre_build:
-    commands:
-      - echo "We are in the pre-build phase."
+  # pre_build:
+  #   commands:
+  #     - echo "We are in the pre-build phase."
       
   build:
     commands:
       - echo "We are in the Build phase !"
-    finally:
       - aws s3 cp s3://eb-rails-server/credentials.yml.enc ./config/credentials.yml.enc
       - aws s3 cp s3://eb-rails-server/master.key ./config/master.key
-
-  post_build:
-    commands:
-      - echo "We are in the post-build phase."
       - rm -rf .bundle
       - bundle install --without development:test --deployment
       - bundle exec rake assets:precompile RAILS_ENV=production
+
+  # post_build:
+  #   commands:
+  #     - echo "We are in the post-build phase."
 
 artifacts:
   files:

@@ -23,13 +23,6 @@ test:
 production:
   adapter: postgresql
   <% aws_client = Aws::SSM::Client.new(region: 'eu-west-2') %>
-  # username: master
-  # username: <%= aws_client.get_parameter({ name: "/db/production/alpha-blog/user", with_decryption: false })[0][:value] %>
-  # password: <%= aws_client.get_parameter({ name: "/db/production/alpha-blog/password", with_decryption: true })[0][:value] %>
-  # host: prod.ckdscmfkkmy0.eu-west-2.rds.amazonaws.com
-  # database: <%= aws_client.get_parameter({ name: "/db/production/alpha-blog/dbname", with_decryption: false })[0][:value] %>
-  # database: <%= aws_client.get_parameter({ name: "/db/production/alpha-blog/dbname", with_decryption: false })[0][:value] %>
-  # port: <%= aws_client.get_parameter({ name: "/db/production/alpha-blog/port", with_decryption: false })[0][:value] %>
-  url: postgresql://master:<%= aws_client.get_parameter({ name: "/db/production/alpha-blog/password", with_decryption: true })[0][:value] %>@prod.ckdscmfkkmy0.eu-west-2.rds.amazonaws.com:5432/alpha_blog
+  url: postgresql://<%= aws_client.get_parameter({ name: "/db/production/marks-blog/database", with_decryption: true })[0][:value] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
